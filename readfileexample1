@@ -1,0 +1,77 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# ------------------------------------------
+# Load dataset
+# ------------------------------------------
+df = pd.read_csv("UK_Flight_2018.csv")
+
+# -------------------------------------------------
+# A. Total number of flights matched, unmatched, cancelled
+# -------------------------------------------------
+total_matched = df['number_flights_matched'].sum()
+total_unmatched = df['actual_flights_unmatched'].sum()
+total_cancelled = df['cancelled_flights'].sum()
+
+print("A. Total Flights:")
+print("   Matched Flights   :", total_matched)
+print("   Unmatched Flights :", total_unmatched)
+print("   Cancelled Flights :", total_cancelled)
+print()
+
+# -------------------------------------------------
+# B. Flights originating from USA → average delay per airline
+# -------------------------------------------------
+usa_flights = df[df['origin_destination_country'].str.upper() == "UNITED STATES"]
+avg_delay_usa = usa_flights.groupby('airline_name')['average_delay'].mean()
+
+print("B. Average delay (minutes) for USA-originating flights by airline:")
+print(avg_delay_usa)
+print()
+
+# -------------------------------------------------
+# C. Count Scheduled Charter categories S and C + Horizontal Bar Plot
+# -------------------------------------------------
+scheduled_counts = df['scheduled_charter'].value_counts()
+
+print("C. Scheduled Charter Category Counts:")
+print(scheduled_counts)
+print()
+
+# Plot horizontally
+plt.barh(scheduled_counts.index, scheduled_counts.values)
+plt.xlabel("Count")
+plt.ylabel("Category (S or C)")
+plt.title("Scheduled Charter Category Distribution")
+plt.show()
+
+# -------------------------------------------------
+# D. Create DataFrames and merge including 'Saffron' and 'The Creek'
+# -------------------------------------------------
+
+df1 = pd.DataFrame({
+    'Restaurant': ['Spice Hub', 'Food Circle', 'Saffron'],
+    'Rating': [4.2, 4.0, 3.8]
+})
+
+df2 = pd.DataFrame({
+    'Restaurant': ['Spice Hub', 'Food Circle', 'The Creek'],
+    'Location': ['London', 'Manchester', 'Birmingham']
+})
+
+merged_df = pd.merge(df1, df2, on='Restaurant', how='outer')
+
+print("D. Merged DataFrame (including Saffron & The Creek):")
+print(merged_df)
+print()
+
+# -------------------------------------------------
+# E. Panda Series 0 → 100, histogram with bin size 15
+# -------------------------------------------------
+series = pd.Series(range(0, 101, 1))
+
+plt.hist(series, bins=range(0, 115, 15))
+plt.xlabel("Value Range")
+plt.ylabel("Frequency")
+plt.title("Histogram of Values from 0 to 100 (Bin size = 15)")
+plt.show()
