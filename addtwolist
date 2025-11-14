@@ -1,0 +1,12 @@
+list1 = [2,3,4,5,6,7]
+list2 = [3,1,7,8,10,12,13]
+
+list3 = []
+
+for i in list1:
+    if i%2 == 0:
+        list3.append(i)
+for j in list2:
+    if j%2 != 0:
+        list3.append(j)
+print("print even numbers from the list1 and odd numbers from the list2", list3)
