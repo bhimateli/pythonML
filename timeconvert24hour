@@ -1,0 +1,25 @@
+def convert_to_24_hour(time_12h):
+    # Normalize input
+    time_12h = time_12h.strip().upper()
+
+    # Extract time part and AM/PM
+    time_part, period = time_12h[:-2].strip(), time_12h[-2:]
+
+    # Split into H, M, S
+    hour, minute, second = map(int, time_part.split(':'))
+
+    # Conversion logic
+    if period == "AM":
+        if hour == 12:       # Midnight case
+            hour = 0
+    else:  # PM
+        if hour != 12:        # Add 12 except for 12 PM
+            hour += 12
+
+    return f"{hour:02d}:{minute:02d}:{second:02d}"
+
+
+# Example usage
+user_input = "08:05:45 PM"
+output = convert_to_24_hour(user_input)
+print("Output:", output)
