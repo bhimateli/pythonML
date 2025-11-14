@@ -1,0 +1,50 @@
+import pandas as pd
+
+# -----------------------------------------
+# Read the dataset
+# -----------------------------------------
+df = pd.read_csv("UK_Flight_2018.csv")
+
+# -----------------------------------------
+# A. Find number of rows and columns
+# -----------------------------------------
+rows, cols = df.shape
+print("A. Number of rows:", rows)
+print("   Number of columns:", cols)
+print()
+
+# -----------------------------------------
+# B. Identify airline names flying in the UK
+# -----------------------------------------
+airlines = df['airline_name'].unique()
+print("B. Airline names flying in the UK:")
+for name in airlines:
+    print("  -", name)
+print("Total airlines:", len(airlines))
+print()
+
+# -----------------------------------------
+# C. List of flights that originate from Vietnam
+# -----------------------------------------
+vietnam_flights = df[df['origin_destination_country'].str.upper() == "VIETNAM"]
+print("C. Flights originating from Vietnam:")
+print(vietnam_flights[['origin_destination', 'airline_name']])
+print()
+
+# -----------------------------------------
+# D. Number of airlines under each reporting airport
+# -----------------------------------------
+airlines_per_airport = df.groupby('reporting_airport')['airline_name'].nunique()
+print("D. Number of airlines under each reporting airport:")
+print(airlines_per_airport)
+print()
+
+# -----------------------------------------
+# E. Number of flights originating from Los Angeles and reporting at Heathrow
+# -----------------------------------------
+la_heathrow = df[
+    (df['origin_destination'].str.upper() == "LOS ANGELES") &
+    (df['reporting_airport'].str.upper() == "HEATHROW")
+]
+
+print("E. Number of flights from Los Angeles reporting at Heathrow:", la_heathrow.shape[0])
