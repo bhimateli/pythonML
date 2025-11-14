@@ -1,0 +1,7 @@
+'''
+Python Program which will find all which are divisible by 3,between 4000 and 4200 ?The numbers obtained should be printed in a comma-separated sequence on a single line'''
+
+for i in range(4000, 4200):
+    if i%3 == 0:
+        print(i, end=',')
+    
